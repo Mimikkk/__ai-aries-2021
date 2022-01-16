@@ -6,10 +6,12 @@
 package put.ai.games.cli;
 
 import com.higherfrequencytrading.affinity.impl.PosixJNAAffinity;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import put.ai.games.game.Board;
 import put.ai.games.game.Move;
 import put.ai.games.game.Player;
@@ -17,14 +19,12 @@ import put.ai.games.game.Player;
 public class Wrapper extends Player implements Runnable {
 
     private final Player base;
-    private final long affinity;
     private final BlockingQueue<Board> boards = new ArrayBlockingQueue<>(1);
     private final BlockingQueue<Object> moves = new ArrayBlockingQueue<>(1);
 
 
-    public Wrapper(Player pl, long affinity) {
+    public Wrapper(Player pl) {
         this.base = pl;
-        this.affinity = affinity;
     }
 
 
@@ -54,8 +54,6 @@ public class Wrapper extends Player implements Runnable {
 
     @Override
     public void run() {
-        System.err.printf("Setting affinity to %d\n", affinity);
-//        PosixJNAAffinity.INSTANCE.setAffinity(affinity);
         try {
             while (!Thread.interrupted()) {
                 Board board = boards.take();

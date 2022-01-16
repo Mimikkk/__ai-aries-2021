@@ -11,8 +11,7 @@ import put.ai.games.game.Move;
 import put.ai.games.game.Player;
 
 public class NaivePlayer extends Player {
-
-    private Random random = new Random(0xdeadbeef);
+    private final Random random = new Random(0xdeadbeef);
 
 
     @Override

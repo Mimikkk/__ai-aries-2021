@@ -8,7 +8,7 @@ import put.ai.games.game.Move;
 import put.ai.games.game.Player;
 
 public class GamerPlayer extends Player {
-    private final Random random = new Random(0xfeebdeeb);
+    private final Random random = new Random(System.currentTimeMillis());
 
 
     @Override
@@ -18,9 +18,10 @@ public class GamerPlayer extends Player {
 
 
     @Override
-    public Move nextMove(Board b) {
-        List<Move> moves = b.getMovesFor(getColor());
+    public Move nextMove(Board board) {
+        random.setSeed(System.currentTimeMillis());
 
+        List<Move> moves = board.getMovesFor(getColor());
         return moves.get(random.nextInt(moves.size()));
     }
 }

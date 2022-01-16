@@ -1,18 +1,11 @@
 package put.ai.games.cli;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import put.ai.games.engine.BoardFactory;
-import put.ai.games.engine.GameEngine;
 import put.ai.games.engine.impl.GameEngineImpl;
-import put.ai.games.engine.loaders.MetaPlayerLoader;
-import put.ai.games.engine.loaders.PlayerLoader;
-import put.ai.games.engine.loaders.PlayerLoadingException;
 import put.ai.games.game.Player;
 import put.ai.games.game.Player.Color;
 import put.ai.games.game.exceptions.RuleViolationException;
@@ -42,11 +35,15 @@ public class App {
     private static Constructor<? extends Player> firstPlayerLoader = null;
     private static Constructor<? extends Player> secondPlayerLoader = null;
 
+    private static int firstWins = 0;
+    private static int secondWins = 0;
+    private static int draws = 0;
+
     private static void play() throws Exception {
         var threadGroup = new ThreadGroup("players");
 
-        var first = new Wrapper(firstPlayerLoader.newInstance(), 1);
-        var second = new Wrapper(secondPlayerLoader.newInstance(), 2);
+        var first = new Wrapper(firstPlayerLoader.newInstance());
+        var second = new Wrapper(secondPlayerLoader.newInstance());
 
         new Thread(threadGroup, first).start();
         new Thread(threadGroup, second).start();
@@ -57,20 +54,16 @@ public class App {
             addPlayer(second);
         }};
 
-        String error = "";
         Color winner;
-        System.out.println("Starting game");
-
         try {
-            winner = engine.play((color, board, move) -> System.out.printf("%s move %s\n", color, move));
+            winner = engine.play((color, board, move) -> {});
         } catch (RuleViolationException reason) {
             winner = Player.getOpponent(reason.getGuilty());
-            error = reason.toString();
         }
 
-        var result = Stream.of(first, second, winner, error)
-            .map(App::formatted).collect(joining(";"));
-        System.out.println(result);
+        firstWins += winner == Color.PLAYER1 ? 1 : 0;
+        secondWins += winner == Color.PLAYER2 ? 1 : 0;
+        draws += winner == Color.EMPTY ? 1 : 0;
     }
 
     public static void main(String[] args) throws Exception {
@@ -83,7 +76,13 @@ public class App {
         if (args.length > 4) boardSize = Integer.parseInt(args[4]);
 
 
-        for (var i = 0; i < 5; ++i) play();
+        for (var i = 0; i < 101; play()) {
+            if (++i % 5 != 0) continue;
+            System.out.printf("Iteration %d/%d\n", i, 100);
+            System.out.println("First wins: " + firstWins);
+            System.out.println("Second wins: " + secondWins);
+            System.out.println("Draws: " + draws);
+        }
         System.exit(0);
     }
 }
