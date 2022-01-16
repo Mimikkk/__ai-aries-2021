@@ -8,7 +8,6 @@
         <artifactId>Players</artifactId>
         <version>2.0-SNAPSHOT</version>
     </parent>
-    <groupId>put.ai.games</groupId>
     <artifactId>GamerPlayer</artifactId>
     <version>2.0-SNAPSHOT</version>
     <name>GamerPlayer</name>

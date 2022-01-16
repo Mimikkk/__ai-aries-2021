@@ -7,7 +7,6 @@
         <artifactId>Games</artifactId>
         <version>2.0-SNAPSHOT</version>
     </parent>
-    <groupId>put.ai.games</groupId>
     <artifactId>CLI</artifactId>
     <version>2.0-SNAPSHOT</version>
     <name>Games CLI</name>
@@ -60,6 +59,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

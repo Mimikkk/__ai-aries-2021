@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
+        <module>GamerPlayer</module>
         <module>NaivePlayer</module>
         <module>NastyPlayer</module>
         <module>NullPlayer</module>

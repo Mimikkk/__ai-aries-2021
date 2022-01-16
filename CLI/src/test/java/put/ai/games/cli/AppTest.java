@@ -4,7 +4,6 @@
  */
 package put.ai.games.cli;
 
-import put.ai.games.cli.App;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -23,34 +22,34 @@ public class AppTest {
     @Test
     public void space() {
         when(p.getName()).thenReturn("proper name");
-        assertEquals("\"proper name\"", App.getName(p));
+        assertEquals("\"proper name\"", App.formatted(p));
     }
 
 
     @Test
     public void eol() {
         when(p.getName()).thenReturn("proper\nname");
-        assertEquals("\"proper_name\"", App.getName(p));
+        assertEquals("\"proper_name\"", App.formatted(p));
     }
 
 
     @Test
     public void backspace() {
         when(p.getName()).thenReturn("proper\bname");
-        assertEquals("\"proper_name\"", App.getName(p));
+        assertEquals("\"proper_name\"", App.formatted(p));
     }
 
 
     @Test
     public void tab() {
         when(p.getName()).thenReturn("proper\tname");
-        assertEquals("\"proper\tname\"", App.getName(p));
+        assertEquals("\"proper\tname\"", App.formatted(p));
     }
 
 
     @Test
     public void quot() {
         when(p.getName()).thenReturn("proper\"name\"");
-        assertEquals("\"proper\"\"name\"\"\"", App.getName(p));
+        assertEquals("\"proper\"\"name\"\"\"", App.formatted(p));
     }
 }
